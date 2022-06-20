@@ -103,7 +103,10 @@ class MultiCursor(GObject.Object, Gedit.ViewActivatable):
         (b, x, y) = event.get_coords()
         (x, y) = view.window_to_buffer_coords(Gtk.TextWindowType.TEXT, x, y)
         pos = view.get_iter_at_location(x, y)
-        self.add_cursor(pos, pos)
+        if str(type(pos)) == "<class 'multicursor._ResultTuple'>":
+          self.add_cursor(pos[1], pos[1])
+        else:
+          self.add_cursor(pos, pos)
         return(True)
       else:
         self.clear_cursors()
@@ -901,3 +904,5 @@ class Casing:
     else:
       inner = ''.join(words)
     return(self.prefix+inner+self.suffix)
+    return False
+
